@@ -5,6 +5,9 @@ const gallerySchema = new mongoose.Schema({
     location:{type:String, required:true},
     about:{type:String, required:true},
     image:{type:String,required:true},
+},{
+    versionKey:false,
+    timestamps:true
 })
 
 

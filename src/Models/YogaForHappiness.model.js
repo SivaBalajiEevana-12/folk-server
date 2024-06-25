@@ -8,6 +8,9 @@ const YogaForHappinessSchema = new mongoose.Schema({
     collageOrCompanY :{type:String, required:true},
     BranchOfYear :{type:String, required:false},
     registerAmount :{type:String, required:true},
+},{
+    versionKey:false,
+    timestamps:true
 });
 
 

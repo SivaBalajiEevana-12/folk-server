@@ -8,6 +8,9 @@ const artOfMindControlSchema = new mongoose.Schema({
     collageOrCompany :{type:String, required:true},
     BranchOfYear :{type:String, required:false},
     registerAmount :{type:String, required:true},
+},{
+    versionKey:false,
+    timestamps:true
 })
 
 

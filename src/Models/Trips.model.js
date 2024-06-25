@@ -8,6 +8,9 @@ const tripsSchema = new mongoose.Schema({
     date :{type:String, required:true},
     price :{type:Number, required:false},
     
+},{
+    versionKey:false,
+    timestamps:true
 })
 
 

@@ -5,6 +5,9 @@ const blogsSchema = new mongoose.Schema({
     date:{type:String, required:true},
     desc:{type:String, required:true},
     image:{type:String,required:true},
+},{
+    versionKey:false,
+    timestamps:true
 })
 
 

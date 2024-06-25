@@ -10,6 +10,9 @@ const donationsSchema = new mongoose.Schema({
     pinCode :{type:Number, required:true},
     city:{type:String, required:true},
     state:{type:String, required:true}
+},{
+    versionKey:false,
+    timestamps:true
 })
 
 
