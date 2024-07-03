@@ -21,7 +21,11 @@ const adminGalleryController ={
      },
      postData: async(req,res)=>{
         try {
-         const data =await  adminGalleryControl.create(req.body);
+         const data =await  adminGalleryControl.create({
+            title:req.body.title,
+            img:req.file.path,
+            description:req.body.description
+         });
          return res.status(200).send({message:"post success", data});
         } catch (error) {
          return res.status(500).send({message:"error", error});

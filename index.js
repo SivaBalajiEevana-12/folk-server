@@ -6,7 +6,6 @@ const { tripsRouter } = require('./src/Routes/Trips.routes');
 const { secretRouter } = require('./src/Routes/SecretsOfSuccess.routes');
 const { galleryRouter } = require('./src/Routes/Gallery.routes');
 const { festivalRouter } = require('./src/Routes/Festivals.routes');
-const { blogsRouter } = require('./src/Routes/Blogs.routes');
 const { artRouter } = require('./src/Routes/ArtOfMind.routes');
 const { userRouter } = require('./src/Routes/User.routes');
 const razorPayRouter = require('./src/Routes/Razopay.routes');
@@ -17,6 +16,7 @@ const { adminResidencyControlRouter } = require('./src/Routes/Admin.residency.ro
 const { adminTripsControlRouter } = require('./src/Routes/Admin.trips.routes');
 const { adminGalleryRouter } = require('./src/Routes/Admin.gallery.routes');
 const { adminFestivalRouter } = require('./src/Routes/Admin.festival.routes');
+const { adminBlogsRouter } = require('./src/Routes/Admin.Blogs.routes');
 const app = express();
 
 const corsOptions = {
@@ -36,7 +36,6 @@ app.use("/api/trips", tripsRouter);
 app.use("/api/secrets", secretRouter);
 app.use("/api/gallery", galleryRouter);
 app.use("/api/festival", festivalRouter);
-app.use("/api/blogs", blogsRouter);
 app.use("/api/arts", artRouter);
 app.use("/api/users", userRouter);
 app.use("/api/payments", razorPayRouter);
@@ -47,6 +46,7 @@ app.use("/api/adminResidency", adminResidencyControlRouter)
 app.use("/api/adminTrips", adminTripsControlRouter)
 app.use("/api/adminGallery", adminGalleryRouter)
 app.use("/api/adminFestival", adminFestivalRouter)
+app.use("/api/adminBlogs", adminBlogsRouter)
 
 app.listen(2346,()=>{
     try {

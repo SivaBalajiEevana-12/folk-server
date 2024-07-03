@@ -20,8 +20,17 @@ const adminFestivalController ={
         }
      },
      postData: async(req,res)=>{
+      console.log(req.body,req.file)
         try {
-         const data =await  adminFestivalControl.create(req.body);
+         const data =await  adminFestivalControl.create({
+            title:req.body.title,
+            description:req.body.description,
+            fromDate:req.body.fromDate,
+            toDate:req.body.toDate,
+            img:req.file.path,
+            location:req.body.location,
+            festivalAgenda:req.body.festivalAgenda
+         });
          return res.status(200).send({message:"post success", data});
         } catch (error) {
          return res.status(500).send({message:"error", error});

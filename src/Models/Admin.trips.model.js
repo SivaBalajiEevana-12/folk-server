@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
 const adminTrips = new mongoose.Schema({
-    name:{type:String, required:true},
-    date:{type:String, required:true},
-    amount:{type:Number, required:true},
-    bgImg:{type:String, required:true},
-    desc:{type:String, required:true},
+    tripName:{type:String, required:true},
+    from:{type:String, required:true},
+    to:{type:String, required:true},
+    fromDate:{type:String, required:true},
+    toDate:{type:String, required:true},
+    img:[{type:String, required:true}],
+    description:{type:String, required:true},
+    price:{type:Number, required:true},
     placesOfVisit:[{type:String, required:true}]
 },{
     versionKey:false,

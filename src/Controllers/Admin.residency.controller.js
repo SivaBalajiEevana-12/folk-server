@@ -20,8 +20,22 @@ const adminResidencyController ={
         }
      },
      postData: async(req,res)=>{
+
+      // residencyName:{type:String, required:true},
+      // location:{type:String, required:true},
+      // feeAmount:{type:Number, required:true},
+      // description:{type:String, required:true},
+      // img:{type:String, required:true},
+      // availabilityStatus:[{type:String, required:false}],
         try {
-         const data =await  adminResidencyControl.create(req.body);
+         const data =await  adminResidencyControl.create({
+               residencyName:req.body.residencyName,
+               location:req.body.location,
+               feeAmount:req.body.feeAmount,
+               description:req.body.description,
+               img:req.file.path,
+               availabilityStatus:req.body.availabilityStatus
+         });
          return res.status(200).send({message:"post success", data});
         } catch (error) {
          return res.status(500).send({message:"error", error});

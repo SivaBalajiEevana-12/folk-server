@@ -20,8 +20,21 @@ const adminTripsController ={
         }
      },
      postData: async(req,res)=>{
+       console.log(req.body)
+      //  console.log(req)
         try {
-         const data =await  adminTripsControl.create(req.body);
+         const data =await  adminTripsControl.create({
+            tripName:req.body.tripName,
+            from:req.body.from,
+            to:req.body.to,
+            fromDate:req.body.fromDate,
+            toDate:req.body.toDate,
+            img:req.file.path,
+            description:req.body.description,
+            price:req.body.price,
+            placesOfVisit:req.body.placesOfVisit
+         });
+        
          return res.status(200).send({message:"post success", data});
         } catch (error) {
          return res.status(500).send({message:"error", error});
