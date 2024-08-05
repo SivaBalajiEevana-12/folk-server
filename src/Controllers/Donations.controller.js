@@ -4,7 +4,7 @@ const DonationModel = require("../Models/Donations.model");
 const donationController ={
     getData: async(req,res)=>{
        try {
-        const data =await  DonationModel.find();
+        const data =await  DonationModel.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});

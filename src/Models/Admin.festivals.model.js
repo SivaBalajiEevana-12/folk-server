@@ -7,7 +7,11 @@ const adminFestivals = new mongoose.Schema({
     toDate:{type:String, required:true},
     img:[{type:String, required:true}],
     location:{type:String, required:true},
-    festivalAgenda:[{type:String, required:true}]
+    festivalAgenda:[{type:String, required:true}],
+    additionalFields:[{
+        title:String,
+        description:String,
+    }]
 },{
     versionKey:false,
     timestamps:true

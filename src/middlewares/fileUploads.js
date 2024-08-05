@@ -1,3 +1,5 @@
+// upload.js
+
 const multer = require('multer');
 const path = require('path');
 
@@ -7,12 +9,12 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldName + '-' + uniqueSuffix + path.extname(file.originalname));
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   }
-
 });
 
 const fileFilter = (req, file, cb) => {
+  console.log("multer", file);
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
@@ -24,8 +26,11 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 1024 * 1024 * 5 // 5MB limit
+    fileSize: 1024 * 1024 * 5 
   }
-});
+}).array('img[]'); 
+
+module.exports = upload;
+
 
 module.exports = upload;

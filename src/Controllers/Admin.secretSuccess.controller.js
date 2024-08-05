@@ -5,7 +5,7 @@ const adminSecretSuccessController ={
     getData: async(req,res)=>{
       
        try {
-        const data =await  adminSecretSuccessControl.find();
+        const data =await  adminSecretSuccessControl.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});
@@ -18,6 +18,15 @@ const adminSecretSuccessController ={
         } catch (error) {
          return res.status(500).send({message:"error", error});
         }
+     },
+
+     getTotalUsers: async(req,res)=>{
+      try {
+         const getTotalUsers  = await adminSecretSuccessControl.aggregate([{$group:{_id:"$location",count:{$sum:1}}}]);
+         return res.status(200).send({message:"total users", getTotalUsers})
+      } catch (error) {
+         return res.status(500).send({message:"error", error});
+      }
      },
      postData: async(req,res)=>{
         try {

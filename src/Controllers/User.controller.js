@@ -55,7 +55,7 @@ const userController = {
     },
 
     register:async(req,res)=>{
-        let {name, email,number, password} = req.body;
+        let {name, email, password} = req.body;
        
         const user =await userModel.findOne({email});
         if(user){
@@ -70,7 +70,6 @@ const userController = {
                     { 
                       name,
                       email,
-                      number,
                       password:hashPassword,
                     })
                  user.save()
@@ -79,6 +78,7 @@ const userController = {
         }
     },
     login:async(req,res)=>{
+      //  console.log( "cookies", req.cookies.userToken)
         const {email,password} = req.body;   
         const user = await userModel.findOne({email});
         if(!user){
@@ -89,8 +89,9 @@ const userController = {
               return  res.status(401).send({message:"please try agin later"})
             }
             if(result == true){
-                var token = jwt.sign({ email:user.email, name:user.name }, "saikiranjwtkey")
-               return res.status(200).send({status:200, message:"login success",user:user.id, token:token, role:user.role, city:user.city})
+                var token = jwt.sign({ email:user.email, id:user.id }, "saikiranjwtkey");
+                res.cookie("userToken", token, {maxAge:1000*60 , http:true})
+               return res.status(200).send({status:200, message:"login success",token:token, name:user.name})
             }
             else{
                return res.status(500).send({message:"invalid login credentials"})

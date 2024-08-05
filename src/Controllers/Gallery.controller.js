@@ -4,7 +4,7 @@ const GalleryModel = require("../Models/Gallery.model");
 const galleryController ={
     getData: async(req,res)=>{
        try {
-        const data =await  GalleryModel.find();
+        const data =await  GalleryModel.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});

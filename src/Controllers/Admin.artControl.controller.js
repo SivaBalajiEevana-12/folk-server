@@ -5,7 +5,7 @@ const adminArtControlController ={
     getData: async(req,res)=>{
       
        try {
-        const data =await  adminArtControl.find();
+        const data =await  adminArtControl.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});

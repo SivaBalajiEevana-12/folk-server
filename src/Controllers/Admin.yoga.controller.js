@@ -5,11 +5,20 @@ const adminYogaController ={
     getData: async(req,res)=>{
      
        try {
-        const data =await  adminYoga.find();
+        const data =await  adminYoga.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});
        }
+    },
+
+    getAllEventsByLocation: async (req, res) => {
+      try {
+         const data =await  adminYoga.find().sort({ createdAt: -1 });
+         return res.status(200).send({message:"success", data});
+        } catch (error) {
+         return res.status(500).send({message:"error", error});
+        }
     },
     singleData: async(req,res)=>{
         try {
@@ -42,7 +51,9 @@ const adminYogaController ={
         } catch (error) {
          return res.status(500).send({message:"error", error});
         }
-     }
+     },
+
+
 }
 
 

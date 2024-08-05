@@ -1,11 +1,12 @@
 const adminGalleryControl = require("../Models/Admin.gallery.model");
-
+const uploadToWebSpaceKit = require('../middlewares/uploadToWebSpaceKit'); // Adjust path as necessary
+const fs = require('fs');
 
 const adminGalleryController ={
     getData: async(req,res)=>{
       
        try {
-        const data =await  adminGalleryControl.find();
+        const data =await  adminGalleryControl.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});

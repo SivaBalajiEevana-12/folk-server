@@ -9,8 +9,12 @@ const adminTrips = new mongoose.Schema({
     img:[{type:String, required:true}],
     description:{type:String, required:true},
     price:{type:Number, required:true},
-    placesOfVisit:[{type:String, required:true}]
-},{
+    placesOfVisit:[{type:String, required:true}],
+    additionalFields:[{
+        title:String,
+        description:String,
+    }]
+},{  
     versionKey:false,
     timestamps:true
 })

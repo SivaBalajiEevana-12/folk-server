@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 const { Connection } = require('./src/Config/db');
 const { yogaRouter } = require('./src/Routes/YogaForHappiness.routes');
 const { tripsRouter } = require('./src/Routes/Trips.routes');
@@ -19,6 +20,7 @@ const { adminFestivalRouter } = require('./src/Routes/Admin.festival.routes');
 const { adminBlogsRouter } = require('./src/Routes/Admin.Blogs.routes');
 const app = express();
 
+
 const corsOptions = {
     origin: "http://localhost:3000", 
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
@@ -27,7 +29,7 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 
-
+app.use(cookieParser())
 app.use(cors(corsOptions)); 
 app.use(express.json());
 

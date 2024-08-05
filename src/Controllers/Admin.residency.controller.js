@@ -1,11 +1,11 @@
 const adminResidencyControl = require("../Models/Admin.residency.model");
-
+const uploadStorage = require("../middlewares/uploadToWebSpaceKit")
 
 const adminResidencyController ={
     getData: async(req,res)=>{
       
        try {
-        const data =await  adminResidencyControl.find();
+        const data =await  adminResidencyControl.find().sort({ createdAt: -1 });
         return res.status(200).send({message:"success", data});
        } catch (error) {
         return res.status(500).send({message:"error", error});
@@ -21,19 +21,14 @@ const adminResidencyController ={
      },
      postData: async(req,res)=>{
 
-      // residencyName:{type:String, required:true},
-      // location:{type:String, required:true},
-      // feeAmount:{type:Number, required:true},
-      // description:{type:String, required:true},
-      // img:{type:String, required:true},
-      // availabilityStatus:[{type:String, required:false}],
         try {
+         const imageUrl = await uploadStorage(req.file);
          const data =await  adminResidencyControl.create({
                residencyName:req.body.residencyName,
                location:req.body.location,
                feeAmount:req.body.feeAmount,
                description:req.body.description,
-               img:req.file.path,
+               img:imageUrl,
                availabilityStatus:req.body.availabilityStatus
          });
          return res.status(200).send({message:"post success", data});

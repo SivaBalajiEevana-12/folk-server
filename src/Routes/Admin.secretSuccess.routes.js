@@ -3,6 +3,7 @@ const {Router} = require("express");
 const adminSecretSuccessControlRouter = Router();
 
 adminSecretSuccessControlRouter.get("/", adminSecretSuccessController.getData);
+adminSecretSuccessControlRouter.get("/getTotalUsers", adminSecretSuccessController.getTotalUsers);
 adminSecretSuccessControlRouter.get("/:id",adminSecretSuccessController.singleData);
 adminSecretSuccessControlRouter.post("/addAdminSecretSuccess", adminSecretSuccessController.postData);
 adminSecretSuccessControlRouter.patch("/:id", adminSecretSuccessController.patchData);
