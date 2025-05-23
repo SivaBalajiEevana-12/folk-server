@@ -8,7 +8,6 @@ const GitaSessionSchema = new mongoose.Schema({
   whatsappNumber: {
     type: String,
     required: true,
-    unique: true,
   },
   age: {
     type: Number,
