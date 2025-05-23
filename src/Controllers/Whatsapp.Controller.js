@@ -36,24 +36,21 @@ const register = async (req, res) => {
       normalizedNumber = '+91' + normalizedNumber;
     }
 
-    // Check if participant already exists
-    // const existing = await GitaSessionParticipant.findOne({ whatsappNumber: normalizedNumber });
-    // if (existing) {
-    //   return res.status(400).send({
-    //     message: "Participant with this WhatsApp number already registered."
-    //   });
-    // }
-
-    // Create participant
-    const participant = await GitaSessionParticipant.create({
-      name,
-      whatsappNumber: normalizedNumber,
-      age,
-      collegeOrWorking,
-      place,
-      selectedBook,
-      interestedInGitaSession
-    });
+    // Upsert participant: update if exists, otherwise create
+    const participant = await GitaSessionParticipant.findOneAndUpdate(
+      { whatsappNumber: normalizedNumber },
+      {
+        $set: {
+          name,
+          age,
+          collegeOrWorking,
+          place,
+          selectedBook,
+          interestedInGitaSession
+        }
+      },
+      { upsert: true, new: true } // new: true returns the updated document
+    );
 
     // Send WhatsApp confirmation
     await client.messages.create({
@@ -63,7 +60,7 @@ const register = async (req, res) => {
     });
 
     return res.status(200).send({
-      message: "Participant registered and WhatsApp confirmation sent.",
+      message: "Participant registered/updated and WhatsApp confirmation sent.",
       data: participant
     });
 
@@ -75,6 +72,7 @@ const register = async (req, res) => {
     });
   }
 };
+
 
 const registerEvent=async (req, res) => {
   try {
