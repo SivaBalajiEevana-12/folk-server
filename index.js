@@ -31,7 +31,10 @@ const corsOptions = {
       "https://folk-client-qjda871kw-techteam-iskconhubli.vercel.app",
       "https://folk-client-b6mef2viv-techteam-iskconhubli.vercel.app",
       "https://folk-client-git-main-techteam-iskconhubli.vercel.app",
-      "https://folk-client-iota.vercel.app"
+      "https://folk-client-iota.vercel.app",
+      "https://folk-clients.vercel.app/",
+      "https://folk-clients-git-main-sivabalajieevana-12s-projects.vercel.app/",
+      "https://folk-clients-jydn3udwk-sivabalajieevana-12s-projects.vercel.app/"
     ],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type'],
