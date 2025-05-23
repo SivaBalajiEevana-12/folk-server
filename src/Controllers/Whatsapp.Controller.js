@@ -37,12 +37,12 @@ const register = async (req, res) => {
     }
 
     // Check if participant already exists
-    const existing = await GitaSessionParticipant.findOne({ whatsappNumber: normalizedNumber });
-    if (existing) {
-      return res.status(400).send({
-        message: "Participant with this WhatsApp number already registered."
-      });
-    }
+    // const existing = await GitaSessionParticipant.findOne({ whatsappNumber: normalizedNumber });
+    // if (existing) {
+    //   return res.status(400).send({
+    //     message: "Participant with this WhatsApp number already registered."
+    //   });
+    // }
 
     // Create participant
     const participant = await GitaSessionParticipant.create({
