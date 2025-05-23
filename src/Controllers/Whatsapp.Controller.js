@@ -11,7 +11,6 @@ const authToken = process.env.TWILIO_AUTH_TOKEN ;
 const fromWhatsApp = process.env.TWILIO_WHATSAPP_FROM; // Default Twilio WhatsApp number
 
 const client = twilio(accountSid, authToken);
-
 const register = async (req, res) => {
   try {
     const {
@@ -26,33 +25,41 @@ const register = async (req, res) => {
 
     // Validate required fields
     if (!name || !whatsappNumber || interestedInGitaSession === undefined) {
-      return res.status(400).send({ message: "Please fill required fields: name, WhatsApp number, and interest status." });
+      return res.status(400).send({
+        message: "Please fill required fields: name, WhatsApp number, and interest status."
+      });
+    }
+
+    // Normalize WhatsApp number to include +91 if missing
+    let normalizedNumber = whatsappNumber.trim();
+    if (!normalizedNumber.startsWith('+')) {
+      normalizedNumber = '+91' + normalizedNumber;
     }
 
     // Check if participant already exists
-    const existing = await GitaSessionParticipant.findOne({ whatsappNumber });
+    const existing = await GitaSessionParticipant.findOne({ whatsappNumber: normalizedNumber });
     if (existing) {
-      return res.status(400).send({ message: "Participant with this WhatsApp number already registered." });
+      return res.status(400).send({
+        message: "Participant with this WhatsApp number already registered."
+      });
     }
 
     // Create participant
     const participant = await GitaSessionParticipant.create({
       name,
-      whatsappNumber,
+      whatsappNumber: normalizedNumber,
       age,
       collegeOrWorking,
       place,
       selectedBook,
       interestedInGitaSession
     });
-      console.log(process.env.TWILIO_WHATSAPP_FROM);
-      console.log(process.env.TWILIO_ACCOUNT_SID);
-      console.log(process.env.TWILIO_AUTH_TOKEN);
+
     // Send WhatsApp confirmation
     await client.messages.create({
       body: `Namaste ${name}! 🙏\nYou have successfully registered for the Gita Session.\nBook: ${selectedBook || 'N/A'}\nLocation: ${place || 'N/A'}\nThank you for your interest! 🌼`,
       from: fromWhatsApp,
-      to: `whatsapp:${whatsappNumber}`
+      to: `whatsapp:${normalizedNumber}`
     });
 
     return res.status(200).send({
@@ -62,9 +69,13 @@ const register = async (req, res) => {
 
   } catch (error) {
     console.error("Registration error:", error);
-    return res.status(500).send({ message: "Error during registration", error });
+    return res.status(500).send({
+      message: "Error during registration",
+      error: error.message
+    });
   }
 };
+
 const registerEvent=async (req, res) => {
   try {
     const { title, eventDate, link } = req.body;
