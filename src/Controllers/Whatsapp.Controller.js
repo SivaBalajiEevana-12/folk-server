@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID ;
 const authToken = process.env.TWILIO_AUTH_TOKEN ;
-const fromWhatsApp = 'whatsapp:+14155238886';
+const fromWhatsApp = process.env.TWILIO_WHATSAPP_FROM; // Default Twilio WhatsApp number
 
 const client = twilio(accountSid, authToken);
 
@@ -45,7 +45,9 @@ const register = async (req, res) => {
       selectedBook,
       interestedInGitaSession
     });
-
+      console.log(process.env.TWILIO_WHATSAPP_FROM);
+      console.log(process.env.TWILIO_ACCOUNT_SID);
+      console.log(process.env.TWILIO_AUTH_TOKEN);
     // Send WhatsApp confirmation
     await client.messages.create({
       body: `Namaste ${name}! 🙏\nYou have successfully registered for the Gita Session.\nBook: ${selectedBook || 'N/A'}\nLocation: ${place || 'N/A'}\nThank you for your interest! 🌼`,
@@ -111,5 +113,6 @@ Looking forward to your participation! 🌼`;
     return res.status(500).send({ message: "Failed to register event.", error });
   }
 };
+
 
 module.exports = {register,registerEvent};

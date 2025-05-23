@@ -17,7 +17,7 @@ const GitaSessionSchema = new mongoose.Schema({
   },
   collegeOrWorking: {
     type: String,
-    enum: ['College', 'Working', 'Other'],
+    enum: ['college', 'working', 'other'],
   },
   place: {
     type: String,
