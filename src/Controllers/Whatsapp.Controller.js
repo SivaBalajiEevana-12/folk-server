@@ -53,10 +53,10 @@ const register = async (req, res) => {
       { upsert: true, new: true }
     );
 
-    // Add contact to Wani Notifier
+    // Add contact to WANI Notifier
     const waninotifierApiKey = process.env.NUMBER_URL;
     const waninotifierUrl = `https://app.wanotifier.com/api/v1/contacts/?key=${waninotifierApiKey}`;
-    console.log(normalizedNumber, waninotifierUrl);
+    
     const waninotifierPayload = {
       whatsapp_number: normalizedNumber,
       first_name: name.split(' ')[0] || name,
@@ -74,45 +74,41 @@ const register = async (req, res) => {
       replace: true
     };
 
-try {
-  const res = await axios.post(waninotifierUrl, waninotifierPayload, { headers: { 'Content-Type': 'application/json' } });
-  console.log("Contact added/updated on WANotifier:", res.data);
-} catch (error) {
-  console.error("WANotifier contact error:", error.response?.data || error.message);
-}
+    try {
+      const res1 = await axios.post(waninotifierUrl, waninotifierPayload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      console.log("Contact added/updated on WANotifier:", res1.data);
+    } catch (error) {
+      console.error("WANotifier contact error:", error.response?.data || error.message);
+    }
 
+    // Optional: Wait a short delay before sending message
+    await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 seconds
 
-    // ✅ Send message via Wani Notifier
-    const templateId = process.env.WANI_TEMPLATE_ID; // e.g. Zl0KQBnwzL
+    // ✅ Send message via WANI Notifier
+    const templateId = process.env.WANI_TEMPLATE_ID;
     const messageUrl = `https://app.wanotifier.com/api/v1/notifications/${templateId}?key=${waninotifierApiKey}`;
 
     const messagePayload = {
       data: {
-        body_variables: [name, selectedBook, place]
+        body_variables: [name, selectedBook, place] // must match the template exactly
       },
       recipients: [
         {
-          whatsapp_number: normalizedNumber,
-          first_name: name.split(" ")[0] || name,
-          last_name: name.split(" ").slice(1).join(" ") || '',
-          attributes: {
-            custom_attribute_1: name,
-            custom_attribute_2: selectedBook,
-            custom_attribute_3: place
-          },
-          lists: ['Default'],
-          tags: ['gita-session-confirmation'],
-          replace: false
+          whatsapp_number: normalizedNumber
         }
       ]
     };
 
-  try {
-  const result1=await axios.post(messageUrl, messagePayload, { headers: { 'Content-Type': 'application/json' } });
-  console.log("Message sent via WANotifier:", result1.data);
-} catch (err) {
-  console.error("Failed to send WhatsApp message via WANotifier:", err.response?.data || err.message);
-}
+    try {
+      const result2 = await axios.post(messageUrl, messagePayload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      console.log("Message sent via WANotifier:", result2.data);
+    } catch (err) {
+      console.error("Failed to send WhatsApp message via WANotifier:", err.response?.data || err.message);
+    }
 
     return res.status(200).send({
       message: "Participant registered, contact updated, and message sent.",
@@ -127,6 +123,7 @@ try {
     });
   }
 };
+
 
 
 
