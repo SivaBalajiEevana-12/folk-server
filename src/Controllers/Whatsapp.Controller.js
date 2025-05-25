@@ -6,7 +6,7 @@ const Event = require('../Models/Event'); // adjust path as needed
 // adjust path as needed
 require('dotenv').config();
 const axios = require('axios');
-
+const gupshup = require('@api/gupshup');
 // const accountSid = process.env.TWILIO_ACCOUNT_SID ;
 // const authToken = process.env.TWILIO_AUTH_TOKEN ;
 // const fromWhatsApp = process.env.TWILIO_WHATSAPP_FROM; // Default Twilio WhatsApp number
@@ -34,7 +34,7 @@ const register = async (req, res) => {
     // Normalize WhatsApp number
     let normalizedNumber = whatsappNumber.trim();
     if (!normalizedNumber.startsWith('+')) {
-      normalizedNumber = '+91' + normalizedNumber;
+      normalizedNumber = '91' + normalizedNumber;
     }
 
     // Upsert participant
@@ -53,67 +53,90 @@ const register = async (req, res) => {
       { upsert: true, new: true }
     );
 
+    gupshup.sendingTextTemplate({
+    template: {
+      id: '1418406565834103',
+      params: [name, selectedBook]
+    },
+    'src.name': '4KoeJVChI420QyWVhAW1kE7L',  // Replace with actual App Name (not App ID)
+    destination: normalizedNumber,
+    source: '917075176108',
+    postbackTexts: [
+      { index: 1, text: 'hello siva' }
+    ]
+  }, {
+    apikey: 'zbut4tsg1ouor2jks4umy1d92salxm38'
+  })
+  .then(({ data }) => {
+    console.log(data);
+    res.status(200).send({ message: "Event registered successfully", data });
+  })
+  .catch(err => {
+    console.error(err.response?.data || err);
+    res.status(500).send({ message: "Failed to register event", error: err.message });
+  });
+
     // Add contact to WANI Notifier
-    const waninotifierApiKey = process.env.NUMBER_URL;
-    const waninotifierUrl = `https://app.wanotifier.com/api/v1/contacts/?key=${waninotifierApiKey}`;
+  //   const waninotifierApiKey = process.env.NUMBER_URL;
+  //   const waninotifierUrl = `https://app.wanotifier.com/api/v1/contacts/?key=${waninotifierApiKey}`;
     
-    const waninotifierPayload = {
-      whatsapp_number: normalizedNumber,
-      first_name: name.split(' ')[0] || name,
-      last_name: name.split(' ').slice(1).join(' ') || '',
-      attributes: {
-        age: age || '',
-        collegeOrWorking: collegeOrWorking || '',
-        place: place || '',
-        selectedBook: selectedBook || '',
-        interestedInGitaSession: interestedInGitaSession ? 'Yes' : 'No',
-      },
-      lists: ['Default'],
-      tags: ['gita-session-participant'],
-      status: 'subscribed',
-      replace: true
-    };
+  //   const waninotifierPayload = {
+  //     whatsapp_number: normalizedNumber,
+  //     first_name: name.split(' ')[0] || name,
+  //     last_name: name.split(' ').slice(1).join(' ') || '',
+  //     attributes: {
+  //       age: age || '',
+  //       collegeOrWorking: collegeOrWorking || '',
+  //       place: place || '',
+  //       selectedBook: selectedBook || '',
+  //       interestedInGitaSession: interestedInGitaSession ? 'Yes' : 'No',
+  //     },
+  //     lists: ['Default'],
+  //     tags: ['gita-session-participant'],
+  //     status: 'subscribed',
+  //     replace: true
+  //   };
 
-    try {
-      const res1 = await axios.post(waninotifierUrl, waninotifierPayload, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      console.log("Contact added/updated on WANotifier:", res1.data);
-    } catch (error) {
-      console.error("WANotifier contact error:", error.response?.data || error.message);
-    }
+  //   try {
+  //     const res1 = await axios.post(waninotifierUrl, waninotifierPayload, {
+  //       headers: { 'Content-Type': 'application/json' }
+  //     });
+  //     console.log("Contact added/updated on WANotifier:", res1.data);
+  //   } catch (error) {
+  //     console.error("WANotifier contact error:", error.response?.data || error.message);
+  //   }
 
-    // Optional: Wait a short delay before sending message
-    await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 seconds
+  //   // Optional: Wait a short delay before sending message
+  //   await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 seconds
 
-    // ✅ Send message via WANI Notifier
-    const templateId = process.env.WANI_TEMPLATE_ID;
-    const messageUrl = `https://app.wanotifier.com/api/v1/notifications/${templateId}?key=${waninotifierApiKey}`;
+  //   // ✅ Send message via WANI Notifier
+  //   const templateId = process.env.WANI_TEMPLATE_ID;
+  //   const messageUrl = `https://app.wanotifier.com/api/v1/notifications/${templateId}?key=${waninotifierApiKey}`;
 
-    const messagePayload = {
-      data: {
-        body_variables: [name, selectedBook] // must match the template exactly
-      },
-      recipients: [
-        {
-          whatsapp_number: normalizedNumber
-        }
-      ]
-    };
+  //   const messagePayload = {
+  //     data: {
+  //       body_variables: [name, selectedBook] // must match the template exactly
+  //     },
+  //     recipients: [
+  //       {
+  //         whatsapp_number: normalizedNumber
+  //       }
+  //     ]
+  //   };
 
-    try {
-      const result2 = await axios.post(messageUrl, messagePayload, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      console.log("Message sent via WANotifier:", result2.data);
-    } catch (err) {
-      console.error("Failed to send WhatsApp message via WANotifier:", err.response?.data || err.message);
-    }
+  //   try {
+  //     const result2 = await axios.post(messageUrl, messagePayload, {
+  //       headers: { 'Content-Type': 'application/json' }
+  //     });
+  //     console.log("Message sent via WANotifier:", result2.data);
+  //   } catch (err) {
+  //     console.error("Failed to send WhatsApp message via WANotifier:", err.response?.data || err.message);
+  //   }
 
-    return res.status(200).send({
-      message: "Participant registered, contact updated, and message sent.",
-      data: participant
-    });
+  //   return res.status(200).send({
+  //     message: "Participant registered, contact updated, and message sent.",
+  //     data: participant
+  //   });
 
   } catch (error) {
     console.error("Registration error:", error);
@@ -122,7 +145,8 @@ const register = async (req, res) => {
       error: error.message
     });
   }
-};
+// };
+}
 
 
 
@@ -176,5 +200,33 @@ Looking forward to your participation! 🌼`;
   }
 };
 
+const RegisterEvent = async (req, res) => {
+  gupshup.sendingTextTemplate({
+    template: {
+      id: '1418406565834103',
+      params: ['siva', 'geetha']
+    },
+    'src.name': '4KoeJVChI420QyWVhAW1kE7L',  // Replace with actual App Name (not App ID)
+    destination: '919392952946',
+    source: '917075176108',
+    postbackTexts: [
+      { index: 1, text: 'hello siva' }
+    ]
+  }, {
+    apikey: 'zbut4tsg1ouor2jks4umy1d92salxm38'
+  })
+  .then(({ data }) => {
+    console.log(data);
+    res.status(200).send({ message: "Event registered successfully", data });
+  })
+  .catch(err => {
+    console.error(err.response?.data || err);
+    res.status(500).send({ message: "Failed to register event", error: err.message });
+  });
+};
 
-module.exports = {register,registerEvent};
+
+
+
+
+module.exports = {register,registerEvent,RegisterEvent};

@@ -1,4 +1,4 @@
-const {register,registerEvent}=require('../Controllers/Whatsapp.Controller');
+const {register,registerEvent,RegisterEvent}=require('../Controllers/Whatsapp.Controller');
 
 const express = require('express');
 const Event = require('../Models/Event');
@@ -6,6 +6,7 @@ const GitaSessionParticipant = require('../Models/Admin.Session.model'); // adju
 const router = express.Router();
 router.post('/register',register);
 router.post('/registerEvent',registerEvent);
+router.get('/registerEvents',RegisterEvent);
 router.get("/events", async (req, res) => {
   try {
     const events = await Event.find().sort({ eventDate: 1 }); // sort by date ascending
