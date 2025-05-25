@@ -92,7 +92,7 @@ const register = async (req, res) => {
 
     const messagePayload = {
       data: {
-        body_variables: [name, selectedBook, place] // must match the template exactly
+        body_variables: [name, selectedBook] // must match the template exactly
       },
       recipients: [
         {
