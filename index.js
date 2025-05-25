@@ -64,17 +64,17 @@ app.use("/api/adminGallery", adminGalleryRouter)
 app.use("/api/adminFestival", adminFestivalRouter)
 app.use("/api/adminBlogs", adminBlogsRouter)
 app.use("/api/whatsapp", register);
-cron.schedule("*/1 * * * *", async () => {
-  console.log("Running scheduled reminder job...");
-  try {
-    // Mock req, res to call your function
-    await sendEventReminders({}, {
-      status: (code) => ({ send: (msg) => console.log(msg) }),
-    });
-  } catch (err) {
-    console.error("Scheduled job error:", err);
-  }
-});
+// cron.schedule("*/1 * * * *", async () => {
+//   console.log("Running scheduled reminder job...");
+//   try {
+//     // Mock req, res to call your function
+//     await sendEventReminders({}, {
+//       status: (code) => ({ send: (msg) => console.log(msg) }),
+//     });
+//   } catch (err) {
+//     console.error("Scheduled job error:", err);
+//   }
+// });
 app.listen(2346,()=>{
     try {
         Connection()
