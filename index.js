@@ -27,6 +27,9 @@ const app = express();
 const corsOptions = {
     origin: [
       "http://localhost:3000",
+      "https://session-beryl.vercel.app",
+      "https://session-sivabalajieevana-12s-projects.vercel.app",
+      "https://session-git-main-sivabalajieevana-12s-projects.vercel.app",
       "https://folk-client.onrender.com",
       "https://folk-client-qjda871kw-techteam-iskconhubli.vercel.app",
       "https://folk-client-b6mef2viv-techteam-iskconhubli.vercel.app",
