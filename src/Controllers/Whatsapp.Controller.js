@@ -55,7 +55,7 @@ const register = async (req, res) => {
 
     gupshup.sendingTextTemplate({
     template: {
-      id: '1418406565834103',
+      id: 'f69893f8-f84f-4c37-a744-c8f6713afce5',
       params: [name, selectedBook]
     },
     'src.name': '4KoeJVChI420QyWVhAW1kE7L',  // Replace with actual App Name (not App ID)
