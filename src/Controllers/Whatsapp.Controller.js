@@ -52,21 +52,21 @@ const register = async (req, res) => {
       },
       { upsert: true, new: true }
     );
-
+    console.log(normalizedNumber, participant);
     gupshup.sendingTextTemplate({
     template: {
-      id: 'f69893f8-f84f-4c37-a744-c8f6713afce5',
+      id: 'f7a7616e-a87a-4be8-ba6e-27a827910031',
       //f69893f8-f84f-4c37-a744-c8f6713afce5
       params: [name, selectedBook]
     },
     'src.name': 'Production',  // Replace with actual App Name (not App ID)
     destination: normalizedNumber,
     source: '917075176108',//917075176108
-    postbackTexts: [
-      { index: 1, text: 'hello siva' }
-    ]
+    // postbackTexts: [
+    //   { index: 1, text: "hello " }
+    // ]
   }, {
-    apikey: 'sk_d61d1bbf56704cdaa405046340c15fa3'
+    apikey: 'zbut4tsg1ouor2jks4umy1d92salxm38'
   })
   .then(({ data }) => {
     console.log(data);
