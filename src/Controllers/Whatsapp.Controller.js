@@ -225,9 +225,56 @@ const RegisterEvent = async (req, res) => {
     res.status(500).send({ message: "Failed to register event", error: err.message });
   });
 };
+const getEvent=  async (req,res)=>{
+  const id=req.params.id;
+  try{
+    const event = await Event.findById(id);
+    if(!event){
+      return res.status(404).send({ message: "Event not found" });
+    }
+    return res.status(200).send({event});
+  }
+  catch(error){
+      console.error("Error fetching event:",error);
+      return res.status(500).send({ message: "Failed to fetch event", error: error.message });
+  }
+
+}
+const deleteEvent = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const event = await Event.findByIdAndDelete(id);
+    if (!event) {
+      return res.status(404).send({ message: "Event not found" });
+    }
+    return res.status(200).send({ message: "Event deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    return res.status(500).send({ message: "Failed to delete event", error: error.message });
+  }
+};
+const updateEvent = async (req, res) => {
+  const id = req.params.id;
+  const updates = req.body;
+
+  try {
+    const event = await Event.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+    if (!event) {
+      return res.status(404).send({ message: "Event not found" });
+    }
+    return res.status(200).send({ message: "Event updated", event });
+  } catch (error) {
+    console.error("Error updating event:", error);
+    return res.status(500).send({ message: "Failed to update event", error: error.message });
+  }
+};
 
 
 
 
 
-module.exports = {register,registerEvent,RegisterEvent};
+
+module.exports = {register,registerEvent,RegisterEvent,getEvent,deleteEvent,updateEvent};
+
+

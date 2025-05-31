@@ -1,4 +1,4 @@
-const {register,registerEvent,RegisterEvent}=require('../Controllers/Whatsapp.Controller');
+const {register,registerEvent,RegisterEvent, getEvent, updateEvent, deleteEvent}=require('../Controllers/Whatsapp.Controller');
 
 const express = require('express');
 const Event = require('../Models/Event');
@@ -7,6 +7,9 @@ const router = express.Router();
 router.post('/register',register);
 router.post('/registerEvent',registerEvent);
 router.get('/registerEvents',RegisterEvent);
+router.get('/event/:id',getEvent)
+router.put('/event/:id',updateEvent)
+router.delete('/event/:id',deleteEvent)
 router.get("/events", async (req, res) => {
   try {
     const events = await Event.find().sort({ eventDate: 1 }); // sort by date ascending
