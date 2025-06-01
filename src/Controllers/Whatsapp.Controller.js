@@ -22,7 +22,8 @@ const register = async (req, res) => {
       collegeOrWorking,
       place,
       selectedBook,
-      interestedInGitaSession
+      interestedInGitaSession,
+      folkOrCongregation = 'None' // Default value if not provided
     } = req.body;
 
     if (!name || !whatsappNumber || interestedInGitaSession === undefined) {
@@ -47,7 +48,8 @@ const register = async (req, res) => {
           collegeOrWorking,
           place,
           selectedBook,
-          interestedInGitaSession
+          interestedInGitaSession,
+          folkOrCongregation
         }
       },
       { upsert: true, new: true }

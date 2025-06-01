@@ -1,4 +1,5 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
+
 const GitaSessionSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -24,14 +25,20 @@ const GitaSessionSchema = new mongoose.Schema({
   },
   selectedBook: {
     type: String,
-    required: false, // Optional for now
+    required: false, // Optional
   },
   interestedInGitaSession: {
     type: Boolean,
     required: true,
-  }
+  },
+  folkOrCongregation: {
+    type: String,
+    enum: ['FOLK', 'Congregation', 'None'],
+    required: false,
+    default: 'None', // Optional: default value
+  },
 }, {
-  timestamps: true // Adds createdAt and updatedAt
+  timestamps: true
 });
 
 module.exports = mongoose.model('GitaSessionParticipant', GitaSessionSchema);
