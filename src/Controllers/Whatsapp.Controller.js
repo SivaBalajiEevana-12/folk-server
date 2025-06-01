@@ -54,12 +54,21 @@ const register = async (req, res) => {
       },
       { upsert: true, new: true }
     );
+    const group="";
+    const link="";
+    if(folkOrCongregation === 'folk'){
+      group="Hare Krishna Youth Empowerment";
+      link="https://chat.whatsapp.com/FSNDhhNqGEBFV2H7KPwRp8"
+    }else{
+      group="Hare Krishna Visakhapatnam "
+      link="https://chat.whatsapp.com/DcoWJuJSY5e30WUX16X4ua"
+    }
     console.log(normalizedNumber, participant);
     gupshup.sendingTextTemplate({
     template: {
-      id: 'f7a7616e-a87a-4be8-ba6e-27a827910031',
+      id: '5abc821c-ce55-4d30-839a-343552caf41f',
       //f69893f8-f84f-4c37-a744-c8f6713afce5
-      params: [name, selectedBook]
+      params: [name, selectedBook,group,link]
     },
     'src.name': 'Production',  // Replace with actual App Name (not App ID)
     destination: normalizedNumber,
