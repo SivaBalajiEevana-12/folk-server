@@ -54,9 +54,9 @@ const register = async (req, res) => {
       },
       { upsert: true, new: true }
     );
-    const group="";
-    const link="";
-    if(folkOrCongregation === 'folk'){
+   let group="";
+   let link="";
+    if(folkOrCongregation === 'FOLK'){
       group="Hare Krishna Youth Empowerment";
       link="https://chat.whatsapp.com/FSNDhhNqGEBFV2H7KPwRp8"
     }else{
